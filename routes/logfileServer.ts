@@ -10,11 +10,13 @@ module.exports = function serveLogFiles () {
   return ({ params }: Request, res: Response, next: NextFunction) => {
     const file = params.file
 
-    if (!file.includes('/')) {
-      res.sendFile(path.resolve('logs/', file))
+    const safeFile = path.basename(file);
+
+    if (safeFile === file) {
+      res.sendFile(path.resolve('logs', safeFile))
     } else {
       res.status(403)
-      next(new Error('File names cannot contain forward slashes!'))
+      next(new Error('File names cannot contain directory traversal characters!'))
     }
   }
 }
