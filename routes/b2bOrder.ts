@@ -9,7 +9,6 @@ import challengeUtils = require('../lib/challengeUtils')
 
 import * as utils from '../lib/utils'
 const security = require('../lib/insecurity')
-const safeEval = require('notevil')
 const challenges = require('../data/datacache').challenges
 
 module.exports = function b2bOrder () {
@@ -17,9 +16,10 @@ module.exports = function b2bOrder () {
     if (!utils.disableOnContainerEnv()) {
       const orderLinesData = body.orderLinesData || ''
       try {
-        const sandbox = { safeEval, orderLinesData }
+        const sandbox = { orderLinesData }
         vm.createContext(sandbox)
-        vm.runInContext('safeEval(orderLinesData)', sandbox, { timeout: 2000 })
+        // Removed the use of unmaintained third-party component 'notevil'
+        // Use a safer alternative or custom evaluator instead
         res.json({ cid: body.cid, orderNo: uniqueOrderNumber(), paymentDue: dateTwoWeeksFromNow() })
       } catch (err) {
         if (utils.getErrorMessage(err).match(/Script execution timed out.*/)) {
