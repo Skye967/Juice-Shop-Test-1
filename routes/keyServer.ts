@@ -10,7 +10,7 @@ module.exports = function serveKeyFiles () {
   return ({ params }: Request, res: Response, next: NextFunction) => {
     const file = params.file
 
-    if (!file.includes('/')) {
+    if (!file.includes('/') && /^[a-zA-Z0-9_.-]+$/.test(file)) {
       res.sendFile(path.resolve('encryptionkeys/', file))
     } else {
       res.status(403)
