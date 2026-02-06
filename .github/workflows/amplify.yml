@@ -23,4 +23,4 @@ jobs:
       - name: Amplify Runner
         uses: amplify-security/runner-action@develop
         with:
-          amplify-endpoint: https://amplify-local-akabigdaddy-public.ngrok.io
+          amplify-endpoint: https://amplify-local-skye-public.ngrok.io
