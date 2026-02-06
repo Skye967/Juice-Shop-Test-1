@@ -1,5 +1,4 @@
 ---
-# .github/workflows/amplify.yml
 name: Amplify Security
 on:
   pull_request: {}
@@ -13,11 +12,15 @@ permissions:
 
 jobs:
   amplify-security-scan:
+    name: Amplify Security Scan
     runs-on: ubuntu-latest
     if: (github.actor != 'dependabot[bot]')
+    permissions:
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - name: Run Amplify Security Scan (Lab)
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Amplify Runner
         uses: amplify-security/runner-action@develop
         with:
           amplify-endpoint: https://amplify-local-akabigdaddy-public.ngrok.io
